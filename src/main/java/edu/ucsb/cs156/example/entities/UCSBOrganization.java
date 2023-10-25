@@ -15,11 +15,8 @@ import lombok.Builder;
 @Entity(name = "ucsborganization")
 public class UCSBOrganization {
   @Id
-  private String code;
-  private String name;
-  private boolean hasSackMeal;
-  private boolean hasTakeOutMeal;
-  private boolean hasDiningCam;
-  private Double latitude;
-  private Double longitude;
+  private String orgCode;
+  private String orgTranslationShort;
+  private String orgTranslation;
+  private boolean inactive;
 }
