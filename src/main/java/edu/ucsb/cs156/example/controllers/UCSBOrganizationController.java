@@ -95,15 +95,12 @@ public class UCSBOrganizationController extends ApiController {
                 .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
 
 
-        commons.setName(incoming.getName());  
-        commons.setHasSackMeal(incoming.getHasSackMeal());
-        commons.setHasTakeOutMeal(incoming.getHasTakeOutMeal());
-        commons.setHasDiningCam(incoming.getHasDiningCam());
-        commons.setLatitude(incoming.getLatitude());
-        commons.setLongitude(incoming.getLongitude());
+        organization.setorgTranslationShort(incoming.orgTranslationShort());  
+        organization.setorgTranslation(incoming.getorgTranslation());
+        commons.setinactive(incoming.getinactive());
 
-        ucsbOrganizationRepository.save(commons);
+        ucsbOrganizationRepository.save(organization);
 
-        return commons;
+        return organization;
     }
 }
