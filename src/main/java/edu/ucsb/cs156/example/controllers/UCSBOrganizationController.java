@@ -97,7 +97,7 @@ public class UCSBOrganizationController extends ApiController {
 
         organization.setorgTranslationShort(incoming.orgTranslationShort());  
         organization.setorgTranslation(incoming.getorgTranslation());
-        commons.setinactive(incoming.getinactive());
+        organization.setinactive(incoming.getinactive());
 
         ucsbOrganizationRepository.save(organization);
 
