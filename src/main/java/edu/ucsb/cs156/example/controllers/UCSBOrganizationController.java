@@ -35,8 +35,8 @@ public class UCSBOrganizationController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<UCSBOrganization> allOrganizations() {
-        Iterable<UCSBDOrganization> orgs = ucsbOrganizationRepository.findAll();
-        return orgs;
+        Iterable<UCSBDOrganization> organization = ucsbOrganizationRepository.findAll();
+        return organization;
     }
 
     @Operation(summary= "Create a new organization")
