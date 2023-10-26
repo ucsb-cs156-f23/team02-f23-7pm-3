@@ -3,7 +3,7 @@
 package edu.ucsb.cs156.example.controllers;
 
 
-import edu.ucsb.cs156.example.entities.UCSBOrganizatoin;
+import edu.ucsb.cs156.example.entities.UCSBOrganization;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.UCSBOrganizationRepository;
 
@@ -44,7 +44,7 @@ public class UCSBOrganizationController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<UCSBOrganization> allOrganizations() {
-        Iterable<UCSBDOrganization> organization = ucsbOrganizationRepository.findAll();
+        Iterable<UCSBOrganization> organization = ucsbOrganizationRepository.findAll();
         return organization;
     }
 
@@ -61,13 +61,13 @@ public class UCSBOrganizationController extends ApiController {
 
 
         UCSBOrganization organization = new UCSBOrganization();
-        organization.setorgCode(orgCode);
-        organization.setorgTranslationShort(orgTranslationShort);
-        organization.setorgTranslation(orgTranslation);
-        organization.setinactive(inactive);
+        organization.setOrgCode(orgCode);
+        organization.setOrgTranslationShort(orgTranslationShort);
+        organization.setOrgTranslation(orgTranslation);
+        organization.setInactive(inactive);
 
 
-        UCSOrganization savedOrganization = ucsbOrganizationRepository.save(organization);
+        UCSBOrganization savedOrganization = ucsbOrganizationRepository.save(organization);
 
 
         return savedOrganization;
