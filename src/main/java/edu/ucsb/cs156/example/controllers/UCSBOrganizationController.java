@@ -47,8 +47,8 @@ public class UCSBOrganizationController extends ApiController {
         @Parameter(name="orgCode") @RequestParam String orgCode,
         @Parameter(name="orgTranslationShort") @RequestParam String orgTranslationShort,
         @Parameter(name="orgTranslation") @RequestParam String orgTranslation,
-        @Parameter(name="inactive") @RequestParam boolean inactive,
-        )
+        @Parameter(name="inactive") @RequestParam boolean inactive
+    )
         {
 
 
