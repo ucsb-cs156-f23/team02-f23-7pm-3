@@ -109,7 +109,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                                 .build();
 
 
-                UCSBDiningOrganization SKY = UCSBOrganization.builder()
+                UCSBOrganization SKY = UCSBOrganization.builder()
                                 .orgCode("SKY")
                                 .orgTranslationShort("SKYDIVING CLUB")
                                 .orgTranslation("SKYDIVING CLUB AT UCSB")
