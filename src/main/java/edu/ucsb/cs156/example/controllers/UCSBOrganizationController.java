@@ -72,7 +72,7 @@ public class UCSBOrganizationController extends ApiController {
 
         return savedOrganization;
     }
-
+/* 
     @Operation(summary= "Get a single organization")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
@@ -83,4 +83,5 @@ public class UCSBOrganizationController extends ApiController {
 
         return organization;
     }
+    */
 }

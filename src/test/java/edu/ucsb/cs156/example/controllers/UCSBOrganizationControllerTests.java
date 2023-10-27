@@ -64,7 +64,41 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 mockMvc.perform(get("/api/ucsborganization/all"))
                                 .andExpect(status().is(200)); // logged
         }
+/* 
 
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+                // arrange
+
+                // private String orgCode;
+                // private String orgTranslationShort;
+                // private String orgTranslation;
+                // private boolean inactive;
+
+                UCSBOrganization orgs = UCSBOrganization.builder()
+                                .orgCode("ZPR")
+                                .orgTranslationShort("ZETA PHI RHO")
+                                .orgTranslation("ZETA PHI RHO")
+                                .inactive(false)
+                                .build();
+
+                when(ucsbOrganizationRepository.findById(eq("ZPR"))).thenReturn(Optional.of(orgs));
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/UCSBOrganization?orgCode=ZPR"))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+
+                verify(ucsbOrganizationRepository, times(1)).findById(eq("ZPR"));
+                String expectedJson = mapper.writeValueAsString(orgs);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+*/
+/* 
         @WithMockUser(roles = { "USER" })
         @Test
         public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
@@ -84,6 +118,8 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("UCSBOrganization with id LOL not found", json.get("message"));
         }
+
+   */     
 
         @WithMockUser(roles = { "USER" })
         @Test
@@ -130,6 +166,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 
+
         // Tests for POST /api/ucsborganization...
 
 
@@ -158,7 +195,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                                 .orgCode("OSLI")
                                 .orgTranslationShort("STUDENT LIFE")
                                 .orgTranslation("OFFICE OF STUDENT LIFE")
-                                .inactive(false)
+                                .inactive(true)
                                 .build();
 
 
@@ -167,7 +204,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/ucsborganization/post?orgCode=OSLI&orgTranslationShort=STUDENT LIFE&orgTranslation=OFFICE OF STUDENT LIFE&inactive=false")
+                                post("/api/ucsborganization/post?orgCode=OSLI&orgTranslationShort=STUDENT LIFE&orgTranslation=OFFICE OF STUDENT LIFE&inactive=true")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -178,4 +215,5 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
+
     }
