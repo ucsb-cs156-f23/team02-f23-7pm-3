@@ -1,12 +1,10 @@
 package edu.ucsb.cs156.example.controllers;
 
-
 import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import edu.ucsb.cs156.example.ControllerTestCase;
 import edu.ucsb.cs156.example.entities.UCSBOrganization;
 import edu.ucsb.cs156.example.repositories.UCSBOrganizationRepository;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,14 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-
 import java.util.Optional;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -65,17 +60,10 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                                 .andExpect(status().is(200)); // logged
         }
 /* 
-
         @WithMockUser(roles = { "USER" })
         @Test
         public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
 
-                // arrange
-
-                // private String orgCode;
-                // private String orgTranslationShort;
-                // private String orgTranslation;
-                // private boolean inactive;
 
                 UCSBOrganization orgs = UCSBOrganization.builder()
                                 .orgCode("ZPR")
@@ -98,7 +86,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 */
-/* 
+
         @WithMockUser(roles = { "USER" })
         @Test
         public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
@@ -118,8 +106,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("UCSBOrganization with id LOL not found", json.get("message"));
         }
-
-   */     
+  
 
         @WithMockUser(roles = { "USER" })
         @Test
@@ -215,5 +202,114 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
+            // Tests for GET /api/ucsborganization?...
+
+        @Test
+        public void logged_out_users_cannot_get_by_id() throws Exception {
+                mockMvc.perform(get("/api/ucsborganization?orgCode=ZPR"))
+                                .andExpect(status().is(403)); // logged out users can't get by id
+        }
+        
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+                // arrange
+
+                UCSBOrganization orgs = UCSBOrganization.builder()
+                        .orgCode("KRC")
+                        .orgTranslationShort("KOREAN RADIO CL")
+                        .orgTranslation("ZETA PHI RHO")
+                        .inactive(false)
+                        .build();
+
+                when(ucsbOrganizationRepository.findById(eq("KRC"))).thenReturn(Optional.of(orgs));
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/ucsborganization?orgCode=KRC"))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+
+                verify(ucsbOrganizationRepository, times(1)).findById(eq("KRC"));
+                String expectedJson = mapper.writeValueAsString(orgs);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+
+        // Tests for PUT /api/ucsbdiningcommons?...
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_organization() throws Exception {
+                // arrange
+
+                UCSBOrganization ZPROrig = UCSBOrganization.builder()
+                                .orgCode("ZPR")
+                                .orgTranslationShort("ZETA PHI RHO")
+                                .orgTranslation("ZETA PHI RHO")
+                                .inactive(false)
+                                .build();
+
+                UCSBOrganization ZPREdited = UCSBOrganization.builder()
+                                .orgCode("ZPRR")
+                                .orgTranslationShort("ZETA PHI RHO ORG")
+                                .orgTranslation("ZETA PHI RHO ORGANIZATION")
+                                .inactive(true)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(ZPREdited);
+
+                when(ucsbOrganizationRepository.findById(eq("ZPR"))).thenReturn(Optional.of(ZPROrig));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsborganization?orgCode=ZPR")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationRepository, times(1)).findById("ZPR");
+                verify(ucsbOrganizationRepository, times(1)).save(ZPREdited); // should be saved with updated info
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+
+ 
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_orgs_that_does_not_exist() throws Exception {
+                // arrange
+
+                UCSBOrganization editedOrganization = UCSBOrganization.builder()
+                                .orgCode("LOL")
+                                .orgTranslationShort("League of Legends")
+                                .orgTranslation("League of Legends")
+                                .inactive(false)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(editedOrganization);
+
+                when(ucsbOrganizationRepository.findById(eq("LOL"))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsborganization?orgCode=LOL")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationRepository, times(1)).findById("LOL");
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("UCSBOrganization with id LOL not found", json.get("message"));
+
+        }
 
     }
+

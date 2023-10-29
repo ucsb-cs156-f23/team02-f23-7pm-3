@@ -72,7 +72,7 @@ public class UCSBOrganizationController extends ApiController {
 
         return savedOrganization;
     }
-/* 
+
     @Operation(summary= "Get a single organization")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
@@ -83,5 +83,24 @@ public class UCSBOrganizationController extends ApiController {
 
         return organization;
     }
-    */
+
+    @Operation(summary= "Update a single organization")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBOrganization updateOrganization(
+            @Parameter(name="orgCode") @RequestParam String orgCode,
+            @RequestBody @Valid UCSBOrganization incoming) {
+
+        UCSBOrganization orgs = ucsbOrganizationRepository.findById(orgCode)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+        
+        orgs.setOrgCode(incoming.getOrgCode());
+        orgs.setOrgTranslationShort(incoming.getOrgTranslationShort());
+        orgs.setOrgTranslation(incoming.getOrgTranslation());
+        orgs.setInactive(incoming.getInactive());
+
+        ucsbOrganizationRepository.save(orgs);
+
+        return orgs;
+    }
 }
