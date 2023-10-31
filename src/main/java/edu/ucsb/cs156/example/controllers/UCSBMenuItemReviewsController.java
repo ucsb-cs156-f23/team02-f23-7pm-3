@@ -70,4 +70,15 @@ public class UCSBMenuItemReviewsController extends ApiController {
 
         return savedUcsbMenuItemReview;
     }
+
+    @Operation(summary= "Get a single menu item review")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBMenuItemReviews getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBMenuItemReviews ucsbMenuItemReview = ucsbMenuItemReviewsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBMenuItemReviews.class, id));
+
+        return ucsbMenuItemReview;
+    }
 }
