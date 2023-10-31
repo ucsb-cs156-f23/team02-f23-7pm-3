@@ -37,6 +37,7 @@ public class HelpRequestController extends ApiController {
     HelpRequestRepository helpRequestRepository;
 
     @Operation(summary= "List of help requests")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<HelpRequest> allHelpRequest() {
         Iterable<HelpRequest> request = helpRequestRepository.findAll();
@@ -44,6 +45,7 @@ public class HelpRequestController extends ApiController {
     }
 
     @Operation(summary= "Create a new help request")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public HelpRequest postHelpRequest(
             @Parameter(name="requestEmail") @RequestParam String requestEmail,
