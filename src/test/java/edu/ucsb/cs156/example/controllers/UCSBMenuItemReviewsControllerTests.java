@@ -137,7 +137,7 @@ public class UCSBMenuItemReviewsControllerTests extends ControllerTestCase {
                 UCSBMenuItemReviews ucsbMenuItemReview1 = UCSBMenuItemReviews.builder()
                                 .itemId(29)
                                 .reviewerEmail("ldelplaya@ucsb.edu")
-                                .stars(0)
+                                .stars(2)
                                 .dateReviewed(ldt1.atStartOfDay())
                                 .comments("eh")
                                 .build();
@@ -146,7 +146,7 @@ public class UCSBMenuItemReviewsControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/ucsbmenuitemreviews/post?itemId=29&reviewerEmail=ldelplaya@ucsb.edu&stars=0&dateReviewed=2022-01-03&comments=eh")
+                                post("/api/ucsbmenuitemreviews/post?itemId=29&reviewerEmail=ldelplaya@ucsb.edu&stars=2&dateReviewed=2022-01-03&comments=eh")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
