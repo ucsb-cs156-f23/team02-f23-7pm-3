@@ -17,7 +17,7 @@ import lombok.Builder;
 @Entity(name = "ucsbmenuitemreviews")
 public class UCSBMenuItemReviews {
   @Id
-  private Long itemId;
+  private long itemId;
   private String reviewerEmail;
   private int stars;
   private LocalDateTime dateReviewed;
