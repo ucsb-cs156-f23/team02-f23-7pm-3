@@ -1,7 +1,6 @@
 package edu.ucsb.cs156.example.controllers;
 
 import edu.ucsb.cs156.example.entities.Articles;
-import edu.ucsb.cs156.example.entities.UCSBDate;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.ArticlesRepository;
 
@@ -38,7 +37,7 @@ public class ArticlesController extends ApiController {
     ArticlesRepository articlesRepository;
 
     @Operation(summary= "List all articles")
-    //@PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<Articles> allArticles() {
         Iterable<Articles> articles = articlesRepository.findAll();
@@ -46,7 +45,7 @@ public class ArticlesController extends ApiController {
     }
 
     @Operation(summary= "Add a new article")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public Articles postArticles(
             @Parameter(name="title") @RequestParam String title,
