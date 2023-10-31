@@ -118,7 +118,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
      
              @WithMockUser(roles = { "ADMIN", "USER" })
              @Test
-             public void an_admin_user_can_post_a_new_ucsbdate() throws Exception {
+             public void an_admin_user_can_post_a_new_helprequest() throws Exception {
                      // arrange
      
                      LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
@@ -129,15 +129,14 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("11")
                                 .requestTime(ldt1)
                                 .explanation("Dokku problems")
-                                .solved(false)
+                                .solved(true)
                                 .build();
      
                      when(helpRequestRepository.save(eq(helpRequest1))).thenReturn(helpRequest1);
      
-                     ///api/helprequest/post?requestEmail=cgaucho%40ucsb.edu&teamID=f23-7pm-3&tableOrBreakoutRoom=11&requestTime=2023-10-30T17%3A35&explanation=Dokku%20problems&solved=false
                      // act
                      MvcResult response = mockMvc.perform(
-                                     post("/api/helprequest/post?requestEmail=cgaucho%40ucsb.edu&teamID=f23-7pm-3&tableOrBreakoutRoom=11&requestTime=2023-10-30T17%3A35&explanation=Dokku%20problems&solved=false")
+                                     post("/api/helprequest/post?requestEmail=cgaucho@ucsb.edu&teamID=f23-7pm-3&tableOrBreakoutRoom=11&requestTime=2022-01-03T00:00:00&explanation=Dokku problems&solved=true")
                                                      .with(csrf()))
                                      .andExpect(status().isOk()).andReturn();
      
