@@ -133,7 +133,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/articles/post?title=Using%20testing-playground%20with%20React%20Testing%20Library&url=https%3A%2F%2Fdev.to%2Fkatieraby%2Fusing-testing-playground-with-react-testing-library-26j7&explanation=Helpful%20when%20we%20get%20to%20front%20end%20development&email=phtcon%40ucsb.edu&dateAdded=2022-04-20T00%3A00%3A00")
+                                post("/api/articles/post?title=Using testing-playground with React Testing Library&url=https://dev.to/katieraby/using-testing-playground-with-react-testing-library-26j7&explanation=Helpful when we get to front end development&email=phtcon@ucsb.edu&dateAdded=2022-04-20T00:00:00")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
