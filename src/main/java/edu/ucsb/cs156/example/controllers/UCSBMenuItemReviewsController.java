@@ -81,4 +81,26 @@ public class UCSBMenuItemReviewsController extends ApiController {
 
         return ucsbMenuItemReview;
     }
+
+    @Operation(summary= "Update a single menu item review")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBMenuItemReviews updateUCSBMenuItemReviews(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBMenuItemReviews incoming) {
+
+        UCSBMenuItemReviews ucsbMenuItemReview = ucsbMenuItemReviewsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBMenuItemReviews.class, id));
+
+        ucsbMenuItemReview.setItemId(incoming.getItemId());
+        ucsbMenuItemReview.setReviewerEmail(incoming.getReviewerEmail());
+        ucsbMenuItemReview.setStars(incoming.getStars());
+        ucsbMenuItemReview.setDateReviewed(incoming.getDateReviewed());
+        ucsbMenuItemReview.setComments(incoming.getComments());
+
+        ucsbMenuItemReviewsRepository.save(ucsbMenuItemReview);
+
+        return ucsbMenuItemReview;
+    }
+
 }
