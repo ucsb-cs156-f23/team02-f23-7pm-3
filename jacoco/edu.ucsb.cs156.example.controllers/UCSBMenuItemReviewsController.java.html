@@ -103,5 +103,16 @@ import java.time.LocalDateTime;
 <span class="fc" id="L103">        return ucsbMenuItemReview;</span>
     }
 
+    @Operation(summary= &quot;Delete a UCSBMenuItemReview&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteUCSBMenuItemReview(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L111">        UCSBMenuItemReviews ucsbMenuItemReview = ucsbMenuItemReviewsRepository.findById(id)</span>
+<span class="fc" id="L112">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBMenuItemReviews.class, id));</span>
+
+<span class="fc" id="L114">        ucsbMenuItemReviewsRepository.delete(ucsbMenuItemReview);</span>
+<span class="fc" id="L115">        return genericMessage(&quot;UCSBMenuItemReviews with id %s deleted&quot;.formatted(id));</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
