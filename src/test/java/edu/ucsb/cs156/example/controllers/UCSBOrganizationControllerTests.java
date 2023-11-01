@@ -361,6 +361,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
         }
 
 
+
         // Tests for PUT /api/ucsbdiningcommons?...
 
 
@@ -448,8 +449,8 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
 
         }
+}
 
 
-    }
 
 
