@@ -213,4 +213,84 @@ public class UCSBMenuItemReviewsControllerTests extends ControllerTestCase {
                 assertEquals("UCSBMenuItemReviews with id 7 not found", json.get("message"));
         }
 
+        // Tests for PUT /api/ucsbmenuitemreviews?id=... 
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_ucsbmenureviewitem() throws Exception {
+                // arrange
+
+                LocalDate ldt1 = LocalDate.parse("2022-04-20");
+                UCSBMenuItemReviews ucsbMenuItemReviewOrig = UCSBMenuItemReviews.builder()
+                                .itemId(27)
+                                .reviewerEmail("cgaucho@ucsb.edu")
+                                .stars(3)
+                                .dateReviewed(ldt1.atStartOfDay())
+                                .comments("bland af but edible I guess")
+                                .build();
+
+                LocalDate ldt2 = LocalDate.parse("2022-03-20");
+                UCSBMenuItemReviews ucsbMenuItemReviewEdited = UCSBMenuItemReviews.builder()
+                                .itemId(29)
+                                .reviewerEmail("foodlovinggaucho@ucsb.edu")
+                                .stars(5)
+                                .dateReviewed(ldt2.atStartOfDay())
+                                .comments("best veggie pizza ever")
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(ucsbMenuItemReviewEdited);
+
+                when(ucsbMenuItemReviewsRepository.findById(eq(67L))).thenReturn(Optional.of(ucsbMenuItemReviewOrig));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsbmenuitemreviews?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(ucsbMenuItemReviewsRepository, times(1)).findById(67L);
+                verify(ucsbMenuItemReviewsRepository, times(1)).save(ucsbMenuItemReviewEdited); // should be saved with correct user
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+        
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_ucsbmenureviewitem_that_does_not_exist() throws Exception {
+                // arrange
+
+                LocalDate ldt2 = LocalDate.parse("2021-04-20");
+                
+                UCSBMenuItemReviews ucsbMenuItemReviewEdited = UCSBMenuItemReviews.builder()
+                                .itemId(29)
+                                .reviewerEmail("bestgaucho@ucsb.edu")
+                                .stars(5)
+                                .dateReviewed(ldt2.atStartOfDay())
+                                .comments("best veggie pizza ever")
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(ucsbMenuItemReviewEdited);
+
+                when(ucsbMenuItemReviewsRepository.findById(eq(67L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsbmenuitemreviews?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(ucsbMenuItemReviewsRepository, times(1)).findById(67L);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("UCSBMenuItemReviews with id 67 not found", json.get("message"));
+
+        }
+
 }
