@@ -103,4 +103,15 @@ public class UCSBMenuItemReviewsController extends ApiController {
         return ucsbMenuItemReview;
     }
 
+    @Operation(summary= "Delete a UCSBMenuItemReview")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteUCSBMenuItemReview(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBMenuItemReviews ucsbMenuItemReview = ucsbMenuItemReviewsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBMenuItemReviews.class, id));
+
+        ucsbMenuItemReviewsRepository.delete(ucsbMenuItemReview);
+        return genericMessage("UCSBMenuItemReviews with id %s deleted".formatted(id));
+    }
 }
