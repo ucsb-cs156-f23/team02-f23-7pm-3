@@ -81,5 +81,27 @@ import java.time.LocalDateTime;
 
 <span class="fc" id="L82">        return ucsbMenuItemReview;</span>
     }
+
+    @Operation(summary= &quot;Update a single menu item review&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public UCSBMenuItemReviews updateUCSBMenuItemReviews(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid UCSBMenuItemReviews incoming) {
+
+<span class="fc" id="L92">        UCSBMenuItemReviews ucsbMenuItemReview = ucsbMenuItemReviewsRepository.findById(id)</span>
+<span class="fc" id="L93">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBMenuItemReviews.class, id));</span>
+
+<span class="fc" id="L95">        ucsbMenuItemReview.setItemId(incoming.getItemId());</span>
+<span class="fc" id="L96">        ucsbMenuItemReview.setReviewerEmail(incoming.getReviewerEmail());</span>
+<span class="fc" id="L97">        ucsbMenuItemReview.setStars(incoming.getStars());</span>
+<span class="fc" id="L98">        ucsbMenuItemReview.setDateReviewed(incoming.getDateReviewed());</span>
+<span class="fc" id="L99">        ucsbMenuItemReview.setComments(incoming.getComments());</span>
+
+<span class="fc" id="L101">        ucsbMenuItemReviewsRepository.save(ucsbMenuItemReview);</span>
+
+<span class="fc" id="L103">        return ucsbMenuItemReview;</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
