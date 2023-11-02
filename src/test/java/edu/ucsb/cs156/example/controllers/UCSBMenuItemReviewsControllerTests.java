@@ -146,7 +146,7 @@ public class UCSBMenuItemReviewsControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/ucsbmenuitemreviews/post?itemId=29&reviewerEmail=ldelplaya@ucsb.edu&stars=2&dateReviewed=2022-01-03&comments=eh")
+                                post("/api/ucsbmenuitemreviews/post?itemId=29&reviewerEmail=ldelplaya@ucsb.edu&stars=2&dateReviewed=2022-01-03T00:00:00&comments=eh")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
