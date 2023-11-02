@@ -1,5 +1,14 @@
 # STARTER-team02
 
+| Table                       | Team Member     | Github Id    |
+|-----------------------------|-----------------|--------------|
+| `UCSBDiningCommonsMenuItem` | Kevin Ren       | ThatsBadJuju |
+| `UCSBOrganization`          | Mu Chen         | mucucsb      |
+| `RecommendationRequest`     | Adyah Rastogi   | adyahrastogi |
+| `MenuItemReview`            | Kate Unger      | KateUnger    |
+| `HelpRequest`               | Ivan Hernandez  | ivan512az    |
+| `Articles`                  | Mariana Rosillo | rosillo-m    |
+
 Instructions: <https://ucsb-cs156.github.io/f23/lab/team02.html>
 
 TODO: change heading above to your repo name, e.g. `# team02-f23-6pm-4`
