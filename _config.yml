@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f23/team02-f23-7pm-3
 owner: ucsb-cs156-f23
 repo_name: team02-f23-7pm-3
-pull_requests: [{"author":{"id":"MDQ6VXNlcjY3OTIyMzg2","is_bot":false,"login":"adyahrastogi","name":""},"headRefName":"adyahrastogi-RecRequest-Controller","number":76,"title":"Fix branch issues with GET single item","url":"https://github.com/ucsb-cs156-f23/team02-f23-7pm-3/pull/76"}]
+pull_requests: []
