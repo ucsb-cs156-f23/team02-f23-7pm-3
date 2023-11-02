@@ -42,8 +42,8 @@ public class RecommendationRequestController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<RecommendationRequest> allRecommendationRequests() {
-        Iterable<RecommendationRequest> requests = recommendationRequestRepository.findAll();
-        return requests;
+        Iterable<RecommendationRequest> RecommendationRequests = recommendationRequestRepository.findAll();
+        return RecommendationRequests;
     }
     
 
