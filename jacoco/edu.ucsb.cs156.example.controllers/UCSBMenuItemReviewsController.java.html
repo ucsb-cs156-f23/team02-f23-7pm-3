@@ -53,17 +53,17 @@ import java.time.LocalDateTime;
             @Parameter(name=&quot;itemId&quot;) @RequestParam Long itemId,
             @Parameter(name=&quot;reviewerEmail&quot;) @RequestParam String reviewerEmail,
             @Parameter(name=&quot;stars&quot;) @RequestParam int stars,
-            @Parameter(name=&quot;dateReviewed&quot;, description=&quot;in iso format, e.g. YYYY-mm-dd; see https://en.wikipedia.org/wiki/ISO_8601&quot;) @RequestParam(&quot;dateReviewed&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateReviewed,
+            @Parameter(name=&quot;dateReviewed&quot;, description=&quot;in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601&quot;) @RequestParam(&quot;dateReviewed&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateReviewed,
             @Parameter(name=&quot;comments&quot;) @RequestParam String comments)
             throws JsonProcessingException {
 
-<span class="fc" id="L60">        log.info(&quot;dateReviewed={}&quot;, dateReviewed);</span>
+
 
 <span class="fc" id="L62">        UCSBMenuItemReviews ucsbMenuItemReview = new UCSBMenuItemReviews();</span>
 <span class="fc" id="L63">        ucsbMenuItemReview.setItemId(itemId);</span>
 <span class="fc" id="L64">        ucsbMenuItemReview.setReviewerEmail(reviewerEmail);</span>
 <span class="fc" id="L65">        ucsbMenuItemReview.setStars(stars);</span>
-<span class="fc" id="L66">        ucsbMenuItemReview.setDateReviewed(dateReviewed.atStartOfDay());</span>
+<span class="fc" id="L66">        ucsbMenuItemReview.setDateReviewed(dateReviewed);</span>
 <span class="fc" id="L67">        ucsbMenuItemReview.setComments(comments);</span>
 
 <span class="fc" id="L69">        UCSBMenuItemReviews savedUcsbMenuItemReview = ucsbMenuItemReviewsRepository.save(ucsbMenuItemReview);</span>
