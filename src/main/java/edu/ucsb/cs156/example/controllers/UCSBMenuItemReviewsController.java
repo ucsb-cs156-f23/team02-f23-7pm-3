@@ -53,17 +53,17 @@ public class UCSBMenuItemReviewsController extends ApiController {
             @Parameter(name="itemId") @RequestParam Long itemId,
             @Parameter(name="reviewerEmail") @RequestParam String reviewerEmail,
             @Parameter(name="stars") @RequestParam int stars,
-            @Parameter(name="dateReviewed", description="in iso format, e.g. YYYY-mm-dd; see https://en.wikipedia.org/wiki/ISO_8601") @RequestParam("dateReviewed") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateReviewed,
+            @Parameter(name="dateReviewed", description="in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601") @RequestParam("dateReviewed") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateReviewed,
             @Parameter(name="comments") @RequestParam String comments)
             throws JsonProcessingException {
 
-        log.info("dateReviewed={}", dateReviewed);
+
 
         UCSBMenuItemReviews ucsbMenuItemReview = new UCSBMenuItemReviews();
         ucsbMenuItemReview.setItemId(itemId);
         ucsbMenuItemReview.setReviewerEmail(reviewerEmail);
         ucsbMenuItemReview.setStars(stars);
-        ucsbMenuItemReview.setDateReviewed(dateReviewed.atStartOfDay());
+        ucsbMenuItemReview.setDateReviewed(dateReviewed);
         ucsbMenuItemReview.setComments(comments);
 
         UCSBMenuItemReviews savedUcsbMenuItemReview = ucsbMenuItemReviewsRepository.save(ucsbMenuItemReview);
